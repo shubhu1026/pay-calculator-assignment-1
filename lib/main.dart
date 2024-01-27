@@ -71,8 +71,19 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
                   onPressed: () {
                     setState(() {
                       // Calculate paycheck
-                      double? hours = double.tryParse(hoursController.text);
-                      double? rate = double.tryParse(rateController.text);
+                      double hours = double.tryParse(hoursController.text) ?? 0;
+                      double rate = double.tryParse(rateController.text) ?? 0;
+
+                      if (hours <= 40) {
+                        regularPay = hours * rate;
+                        overtimePay = 0;
+                      } else {
+                        regularPay = 40 * rate;
+                        overtimePay = (hours - 40) * rate * 1.5;
+                      }
+
+                      totalPay = regularPay + overtimePay;
+                      tax = totalPay * 0.18;
                     });
                   },
                   style: ElevatedButton.styleFrom(
