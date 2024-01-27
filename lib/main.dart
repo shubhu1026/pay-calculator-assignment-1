@@ -27,6 +27,11 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
   TextEditingController hoursController = TextEditingController();
   TextEditingController rateController = TextEditingController();
 
+  double regularPay = 0;
+  double overtimePay = 0;
+  double totalPay = 0;
+  double tax = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +85,45 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Text(
+                  'Results:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                Text(
+                  'Regular Pay: \$$regularPay',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  'Overtime Pay: \$$overtimePay',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  'Total Pay: \$$totalPay',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  'Tax: \$$tax',
+                  style: const TextStyle(
+                    fontSize: 16,
                   ),
                 ),
               ],
