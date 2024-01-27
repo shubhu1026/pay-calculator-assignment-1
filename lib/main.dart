@@ -32,6 +32,9 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
   double totalPay = 0;
   double tax = 0;
 
+  String hoursError = '';
+  String rateError = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +55,7 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'Enter Hours Worked',
+                    errorText: hoursError.isNotEmpty ? hoursError : null,
                   ),
                 ),
                 const SizedBox(
@@ -62,6 +66,7 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'Enter Hourly Rate',
+                    errorText: rateError.isNotEmpty ? rateError : null,
                   ),
                 ),
                 const SizedBox(
@@ -70,9 +75,24 @@ class _PaycheckCalculatorState extends State<PaycheckCalculator> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      hoursError = '';
+                      rateError = '';
+
                       // Calculate paycheck
-                      double hours = double.tryParse(hoursController.text) ?? 0;
-                      double rate = double.tryParse(rateController.text) ?? 0;
+                      double? hours = double.tryParse(hoursController.text);
+                      double? rate = double.tryParse(rateController.text);
+
+                      if (hours == null || hours <= 0) {
+                        hoursError =
+                            'Invalid hours. Please enter a valid number.';
+                        return;
+                      }
+
+                      if (rate == null || rate <= 0) {
+                        rateError =
+                            'Invalid rate. Please enter a valid number.';
+                        return;
+                      }
 
                       if (hours <= 40) {
                         regularPay = hours * rate;
